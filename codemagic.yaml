@@ -1,17 +1,12 @@
 workflows:
   android-app:
-    name: Build Android App
+    name: Android App
+    max_build_duration: 60
     environment:
-      sdk: flutter
-      flutter: stable
+      flutter: stable   # Flutter ka stable version use hoga
+      java: 11          # Java version (required for Android build)
     scripts:
-      - name: Download project from Google Drive
-        script: |
-          echo "Downloading project zip..."
-          wget -O project.zip "https://drive.google.com/uc?export=download&id=1NavTMPjhc0OGQypx2nzC-t7AeZQEBl29"
-          unzip project.zip -d project
-          cd project
-      - name: Get Flutter dependencies
+      - name: Install dependencies
         script: flutter pub get
       - name: Build APK
         script: flutter build apk --release
