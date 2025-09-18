@@ -1,0 +1,30 @@
+workflows:
+  android-build:
+    name: Build Android APK via Drive ZIP
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      - name: Download project from Google Drive
+        script: |
+          FILE_ID="1NavTMPjhc0OGQypx2nzC-t7AeZQEBl29"
+          DRIVE_LINK="https://drive.google.com/uc?export=download&id=$FILE_ID"
+
+          echo "Downloading project.zip from Google Drive..."
+          curl -L "$DRIVE_LINK" -o project.zip
+
+          echo "Unzipping project.zip..."
+          unzip project.zip -d project
+
+          cd project
+
+      - name: Get Flutter dependencies
+        script: |
+          flutter pub get
+
+      - name: Build APK
+        script: |
+          flutter build apk --release
+
+    artifacts:
+      - project/build/app/outputs/flutter-apk/app-release.apk
