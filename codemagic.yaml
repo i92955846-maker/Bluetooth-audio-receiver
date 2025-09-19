@@ -4,12 +4,7 @@ workflows:
     max_build_duration: 60
     environment:
       flutter: stable
-      xcode: latest
     scripts:
-      - name: Download project from Google Drive
-        script: |
-          curl -L -o project.zip "https://drive.google.com/uc?export=download&id=1JChD9g1YHjB2xhX5tYzGEMD3SGLEF-sK"
-          unzip project.zip -d .
       - name: Get Flutter dependencies
         script: |
           flutter pub get
