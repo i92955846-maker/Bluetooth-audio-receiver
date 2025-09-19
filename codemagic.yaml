@@ -1,0 +1,30 @@
+workflows:
+  android-app:
+    name: Build Android App (Auto from Google Drive ZIP)
+    environment:
+      sdk: flutter
+      flutter: stable
+    scripts:
+      - name: Download & Extract Project
+        script: |
+          echo "⬇️ Downloading project zip..."
+          FILE_ID="1NavTMPjhc0OGQypx2nzC-t7AeZQEBl29"
+          DRIVE_LINK="https://drive.google.com/uc?export=download&id=$FILE_ID"
+          wget -O project.zip "$DRIVE_LINK"
+
+          echo "📂 Extracting project..."
+          unzip -o project.zip -d project
+
+          # Move into extracted folder (whether direct or inside subfolder)
+          cd project/* || cd project
+
+      - name: Get Flutter dependencies
+        script: |
+          flutter pub get
+
+      - name: Build APK
+        script: |
+          flutter build apk --release
+
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
